@@ -9,6 +9,7 @@ import (
 type server struct {
 	url, domain, port string
 	router            *http.ServeMux
+	repo              *repo
 }
 
 func initialize(domain, port string) *server {
@@ -17,6 +18,7 @@ func initialize(domain, port string) *server {
 		port:   port,
 		url:    url(domain, port),
 	}
+	//srv.repo, _ = srv.newRepo()
 	srv.router = srv.newRouter()
 	return &srv
 }

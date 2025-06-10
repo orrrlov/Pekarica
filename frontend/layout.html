@@ -1,46 +1,156 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ block "title" . }}My Site{{ end }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .sidebar {
-            min-height: 100vh;
-            background-color: #343a40;
-            color: white;
-        }
-        .sidebar a {
-            color: white;
-            text-decoration: none;
-        }
-        .sidebar a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block sidebar py-4">
-                <div class="position-sticky">
-                    {{ block "sidebar" . }}
-                    <h4 class="px-3">Sidebar</h4>
-                    <ul class="nav flex-column px-3">
-                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-                    </ul>
-                    {{ end }}
-                </div>
-            </nav>
+<!doctype html>
+<html lang="en" class="group/html">
 
-            <!-- Main Content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+<head>
+    <title>E-commerce Dashboard - Nexus (HTML - DaisyUI)</title>
+
+    <meta charset="UTF-8" />
+    <meta name="author" content="Denish Navadiya" />
+    <meta name="keywords" content="HTML, CSS, daisyui, tailwindcss, admin, client, dashboard, ui kit, component" />
+    <meta name="description"
+        content="Start your next project with Nexus, designed for effortless customization to streamline your development process" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="./assets/images/favicon-dark.png" media="(prefers-color-scheme: dark)" />
+    <link rel="shortcut icon" href="./assets/images/favicon-light.png" media="(prefers-color-scheme: light)" />
+
+    <script>
+        try {
+            const localStorageItem = localStorage.getItem("__NEXUS_CONFIG_v2.0__")
+            if (localStorageItem) {
+                const theme = JSON.parse(localStorageItem).theme
+                if (theme !== "system") {
+                    document.documentElement.setAttribute("data-theme", theme)
+                }
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    </script>
+
+    <link rel="stylesheet" href="./assets/css/app.css">
+</head>
+
+<body>
+    <!--  Start: Layout - Main -->
+
+    <div class="size-full">
+        <div class="flex">
+            <!--  Start: Layout - Sidebar -->
+
+            <input type="checkbox" id="layout-sidebar-toggle-trigger" class="hidden"
+                aria-label="Toggle layout sidebar" />
+
+            <div id="layout-sidebar">
+                <a class="flex min-h-16 items-center justify-center" href="./dashboards-ecommerce.html">
+                    <img alt="logo-dark" class="hidden h-5 dark:inline" src="./images/logo/logo-dark.png" />
+                    <img alt="logo-light" class="h-5 dark:hidden" src="./assets/images/logo/logo-light.png" />
+                </a>
+                <div class="relative min-h-0 grow">
+                    <div data-simplebar class="size-full">
+                        <div id="sidebar-menu">
+                            <a class="sidebar-menu-item" href="./landing.html">
+                                <span class="iconify lucide--file size-4"></span>
+                                Landing
+                            </a>
+                        </div>
+                    </div>
+                    <div
+                        class="from-base-100/60 pointer-events-none absolute start-0 end-0 bottom-0 h-7 bg-linear-to-t to-transparent">
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <hr class="border-base-300" />
+                    <ul class="menu w-full">
+                        <li>
+                            <a href="./pages-get-help.html" class="flex items-center gap-2">
+                                <span class="iconify lucide--circle-help size-4"></span>
+                                Informacije
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <label for="layout-sidebar-toggle-trigger" id="layout-sidebar-backdrop"></label>
+
+            <!--  End: Layout - Sidebar -->
+
+
+            <div class="flex h-screen min-w-0 grow flex-col overflow-auto">
+                <!--  Start: Layout - Topbar -->
+
+                <div role="navigation" aria-label="Navbar" class="flex items-center justify-between px-3"
+                    id="layout-topbar">
+                    <div class="inline-flex items-center gap-3">
+                        <label class="btn btn-square btn-ghost btn-sm" aria-label="Leftmenu toggle"
+                            for="layout-sidebar-toggle-trigger">
+                            <span class="iconify lucide--menu size-5"></span>
+                        </label>
+                    </div>
+                    <div class="inline-flex items-center gap-1.5">
+                        <div class="dropdown dropdown-center">
+                            <div tabindex="0" role="button" class="btn btn-sm btn-circle btn-ghost"
+                                aria-label="Theme toggle">
+                                <span
+                                    class="iconify lucide--sun hidden size-4 size-4.5 group-data-[theme=light]/html:inline"></span>
+                                <span
+                                    class="iconify lucide--moon hidden size-4 size-4.5 group-data-[theme=dark]/html:inline"></span>
+                                <span
+                                    class="iconify lucide--monitor hidden size-4 size-4.5 group-[:not([data-theme])]/html:inline"></span>
+                                <span
+                                    class="iconify lucide--palette hidden size-4 size-4.5 group-data-[theme=contrast]/html:inline group-data-[theme=dim]/html:inline group-data-[theme=material]/html:inline group-data-[theme=material-dark]/html:inline"></span>
+                            </div>
+                            <ul tabindex="0"
+                                class="dropdown-content menu bg-base-100 rounded-box z-1 mt-2 w-36 space-y-0.5 p-1 shadow-sm">
+                                <li>
+                                    <div class="group-data-[theme=light]/html:bg-base-200 flex gap-2"
+                                        data-theme-control="light">
+                                        <span class="iconify lucide--sun size-4.5"></span>
+                                        <span class="font-medium">Light</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="group-data-[theme=dark]/html:bg-base-200 flex gap-2"
+                                        data-theme-control="dark">
+                                        <span class="iconify lucide--moon size-4.5"></span>
+                                        <span class="font-medium">Dark</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="group-[:not([data-theme])]/html:bg-base-200 flex gap-2"
+                                        data-theme-control="system">
+                                        <span class="iconify lucide--monitor size-4.5"></span>
+                                        <span class="font-medium">System</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!--  End: Layout - Topbar -->
+
+
+                <!--  Start: Layout - Content -->
+
                 {{ block "content" . }}{{ end }}
-            </main>
+
+                <!--  End: Layout - Content -->
+
+            </div>
         </div>
     </div>
+
+    <!--  End: Layout - Main -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/4.3.0/apexcharts.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/4.3.0/apexcharts.min.js"></script>
+    <script src="./assets/js/pages/dashboards/ecommerce.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplebar/6.2.7/simplebar.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simplebar/6.2.7/simplebar.css" />
+    <script src="./assets/js/app.js"></script>
+
 </body>
+
 </html>

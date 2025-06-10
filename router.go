@@ -8,6 +8,9 @@ import (
 func (s *server) newRouter() *http.ServeMux {
 	mux := http.NewServeMux()
 
+	fs := http.FileServer(http.Dir("frontend/assets"))
+	mux.Handle("/assets/", http.StripPrefix("/assets/", fs))
+
 	mux.HandleFunc("/", getIndex)
 	mux.HandleFunc("/quit", quit)
 
