@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type repo struct {
@@ -11,8 +13,8 @@ type repo struct {
 }
 
 func (s *server) newRepo() (*repo, error) {
-	var r *repo
 	var err error
+	r := &repo{}
 
 	if err := createDBFile(DB_PATH); err != nil {
 		return nil, err
@@ -32,6 +34,10 @@ func (s *server) newRepo() (*repo, error) {
 		return nil, err
 	}
 
+	r.db.SetMaxOpenConns(1)
+	r.db.SetMaxIdleConns(1)
+	r.db.SetConnMaxLifetime(0)
+
 	if err := r.createTables(); err != nil {
 		return nil, err
 	}
@@ -40,11 +46,13 @@ func (s *server) newRepo() (*repo, error) {
 }
 
 func createDBFile(dbPath string) error {
-	file, err := os.OpenFile(dbPath, os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		return err
+	if _, err := os.Stat(dbPath); os.IsNotExist(err) {
+		file, err := os.Create(dbPath)
+		if err != nil {
+			return err
+		}
+		return file.Close()
 	}
-	defer file.Close()
 	return nil
 }
 

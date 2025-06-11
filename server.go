@@ -13,12 +13,17 @@ type server struct {
 }
 
 func initialize(domain, port string) *server {
+	var err error
 	srv := server{
 		domain: domain,
 		port:   port,
 		url:    url(domain, port),
 	}
-	//srv.repo, _ = srv.newRepo()
+
+	if srv.repo, err = srv.newRepo(); err != nil {
+		log.Fatalf("error creating repo: %v", err)
+	}
+
 	srv.router = srv.newRouter()
 	return &srv
 }
