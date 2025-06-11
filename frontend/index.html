@@ -1,6 +1,25 @@
-{{ define "title" }}Home Page{{ end }}
+{{ define "title" }}Početna{{ end }}
 
 {{ define "content" }}
-    <h1>Welcome!</h1>
-    <p>This is the main content area styled with Bootstrap 5.</p>
+<div id="layout-content">
+    <div class="flex items-center justify-between">
+        <h3 class="text-lg font-medium">Početna</h3>
+        <div class="breadcrumbs hidden p-0 text-sm sm:inline">
+            <ul>
+                <li><a href="/">Pekarica</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="mt-6">
+        <div class="bg-base-100 card shadow">
+            <div class="card-body">
+                <h2 class="card-title mb-8">✨✨✨ Dobro došli u Jovaninu pekaricu! ✨✨✨</h2>
+                <p class="mb-2">Na linku ispod se nalaze detaljne instrukcije o korišćenju ove aplikacije:</p>
+                <iframe class="mb-2" width="560" height="315" src="https://www.youtube-nocookie.com/embed/Byzhrg7oW58?si=SmywYZSvWWpQ1Za2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <p class="mb-2">Za sve dodatne informacije, kliknite na "Informacije" u bočnoj navigaciji.</p>
+                <p class="mb-2">Srećno! 🍀🤞✨</p>
+            </div>
+        </div>
+    </div>
+</div>
 {{ end }}

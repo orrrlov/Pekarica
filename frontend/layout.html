@@ -2,7 +2,7 @@
 <html lang="en" class="group/html">
 
 <head>
-    <title>E-commerce Dashboard - Nexus (HTML - DaisyUI)</title>
+    <title>Pekarica - {{ block "title" . }}{{ end }}</title>
 
     <meta charset="UTF-8" />
     <meta name="author" content="Denish Navadiya" />
@@ -27,6 +27,8 @@
         }
     </script>
 
+    <!-- <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
     <link rel="stylesheet" href="./assets/css/app.css">
     <link rel="stylesheet" href="./assets/css/custom.css">
 </head>
@@ -50,8 +52,20 @@
                     <div data-simplebar class="size-full">
                         <div id="sidebar-menu">
                             <a class="sidebar-menu-item" href="./landing.html">
-                                <span class="iconify lucide--file size-4"></span>
-                                Landing
+                                <span class="iconify lucide--home size-4"></span>
+                                Početna
+                            </a>
+                            <a class="sidebar-menu-item" href="./landing.html">
+                                <span class="iconify lucide--croissant size-4"></span>
+                                Proizvodi
+                            </a>
+                            <a class="sidebar-menu-item" href="./landing.html">
+                                <span class="iconify lucide--egg-fried size-4"></span>
+                                Sastojci
+                            </a>
+                            <a class="sidebar-menu-item" href="./landing.html">
+                                <span class="iconify lucide--bar-chart-big size-4"></span>
+                                Potrošnja
                             </a>
                         </div>
                     </div>
@@ -125,7 +139,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <a class="btn btn-circle btn-ghost btn-sm">
+                            <a class="btn btn-circle btn-ghost btn-sm" onclick="quit.showModal()">
                                 <span class="iconify lucide--circle-x size-5"></span>
                             </a>
                         </div>
@@ -148,7 +162,7 @@
                             Napravio <a class="text-primary ms-1 cursor-pointer hover:underline" href="mailto:1.orlovigor@gmail.com">Igor Orlov</a> za svoju drugaricu Jovanu Popović.
                             <br>
                             <br>
-                            Za sva pitanja i predloge, obrati te se gorepomenutom.
+                            Za sva pitanja i predloge, obratite se gorepomenutom.
                             <br>
                             Ako ga ne bude mrzelo, možda Vam i pomogne.
                             <br>
@@ -158,6 +172,21 @@
                         <div class="modal-action">
                             <form method="dialog">
                                 <button class="btn">Zatvori</button>
+                            </form>
+                        </div>
+                    </div>
+                </dialog>
+                <dialog id="quit" class="modal">
+                    <div class="modal-box">
+                        
+                        <h3 class="text-lg font-medium"><span class="iconify lucide--circle-x mx-2"></span>Zatvori aplikaciju</h3>
+                        <p class="py-4">
+                            Da li ste sigurni da želite da zatvorite aplikaciju?
+                        </p>
+                        <div class="modal-action">
+                            <form method="dialog">
+                                <button class="btn">Odustani</button>
+                                <button class="btn btn-error my-2" onclick="window.location.reload()">Zatvori</button>
                             </form>
                         </div>
                     </div>
