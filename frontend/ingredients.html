@@ -1,0 +1,96 @@
+{{ define "title" }}Sastojci{{ end }}
+
+{{ define "content" }}
+<div id="layout-content">
+    <div class="flex items-center justify-between">
+        <h3 class="text-lg font-medium">Sastojci</h3>
+        <div class="breadcrumbs hidden p-0 text-sm sm:inline">
+            <ul>
+                <li><a href="/">Pekarica</a></li>
+                <li class="opacity-80">Sastojci</li>
+            </ul>
+        </div>
+    </div>
+    <div class="mt-6">
+        <div class="card bg-base-100 shadow">
+            <div class="card-body p-0">
+                <div class="overflow-auto">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Naziv</th>
+                                <th>Opis</th>
+                                <th>Akcija</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="hover:bg-base-200/40 cursor-pointer *:text-nowrap">
+                                <form action="/ingredients" method="POST">
+                                    <td class="font-medium">_</td>
+                                    <td class="font-medium"><input placeholder="Naziv" class="input" type="text" name="name"
+                                            aria-label="Naziv" /></td>
+                                    <td><input placeholder="Opis" class="input" type="text" name="description"
+                                            aria-label="Opis" /></td>
+                                    <td>
+                                        <div class="inline-flex w-fit">
+                                            <button aria-label="Edit customer link"
+                                                class="btn btn-square btn-success btn-outline btn-sm border-transparent"
+                                                href="./apps-ecommerce-shops-edit.html" type="submit">
+                                                <span class="iconify lucide--check size-4"></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </form>
+                            </tr>
+                            {{range .}}
+                            <tr class="hover:bg-base-200/40 cursor-pointer *:text-nowrap">
+                                <td class="font-medium">{{.ID}}</td>
+                                <td class="font-medium">{{.Name}}</td>
+                                <td>{{.Description}}</td>
+                                <td>
+                                    <div class="inline-flex w-fit">
+                                        <button aria-label="Delete ingredient" onclick="apps_shop_delete.showModal()"
+                                            class="btn btn-square btn-error btn-outline btn-sm border-transparent">
+                                            <span class="iconify lucide--trash size-4"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{end}}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <dialog id="apps_shop_delete" class="modal">
+            <div class="modal-box">
+                <div class="flex items-center justify-between text-lg font-medium">
+                    Potvrdi brisanje
+                    <form method="dialog">
+                        <button class="btn btn-sm btn-ghost btn-circle" aria-label="Close modal">
+                            <span class="iconify lucide--x size-4"></span>
+                        </button>
+                    </form>
+                </div>
+                <p class="py-4">
+                    Ako obrišete ovaj sastojak, obrisaće se iz svih recepata i istorije. Da li ste sigurni da to želite
+                    da uradite?
+                </p>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <button class="btn btn-ghost btn-sm">Ne</button>
+                    </form>
+                    <form method="dialog">
+                        <button class="btn btn-sm btn-error">
+                            Obriši
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <form method="dialog" class="modal-backdrop">
+                <button>close</button>
+            </form>
+        </dialog>
+    </div>
+</div>
+{{ end }}

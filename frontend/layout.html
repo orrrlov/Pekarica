@@ -51,19 +51,19 @@
                 <div class="relative min-h-0 grow">
                     <div data-simplebar class="size-full">
                         <div id="sidebar-menu">
-                            <a class="sidebar-menu-item" href="./landing.html">
+                            <a class="sidebar-menu-item" href="/">
                                 <span class="iconify lucide--home size-4"></span>
                                 Početna
                             </a>
-                            <a class="sidebar-menu-item" href="./landing.html">
+                            <a class="sidebar-menu-item" href="/recipes">
                                 <span class="iconify lucide--croissant size-4"></span>
-                                Proizvodi
+                                Recepti
                             </a>
-                            <a class="sidebar-menu-item" href="./landing.html">
+                            <a class="sidebar-menu-item" href="/ingredients">
                                 <span class="iconify lucide--egg-fried size-4"></span>
                                 Sastojci
                             </a>
-                            <a class="sidebar-menu-item" href="./landing.html">
+                            <a class="sidebar-menu-item" href="/spending">
                                 <span class="iconify lucide--bar-chart-big size-4"></span>
                                 Potrošnja
                             </a>
@@ -167,7 +167,7 @@
                             Ako ga ne bude mrzelo, možda Vam i pomogne.
                             <br>
                             <br>
-                            Poy
+                            Poy 👋
                         </p>
                         <div class="modal-action">
                             <form method="dialog">
@@ -183,10 +183,12 @@
                         <p class="py-4">
                             Da li ste sigurni da želite da zatvorite aplikaciju?
                         </p>
-                        <div class="modal-action">
+                        <div class="modal-action my-2">
                             <form method="dialog">
                                 <button class="btn">Odustani</button>
-                                <button class="btn btn-error my-2" onclick="window.location.reload()">Zatvori</button>
+                            </form>
+                            <form method="GET" action="/quit">
+                                <button class="btn btn-error">Zatvori</button>
                             </form>
                         </div>
                     </div>

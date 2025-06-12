@@ -62,3 +62,37 @@ func (r *repo) createTables() error {
 	}
 	return nil
 }
+
+func (r *repo) getAllIngredients() ([]ingredient, error) {
+	var is []ingredient
+	query := `
+	SELECT id, name, description 
+	FROM ingredients 
+	ORDER id DESC;`
+	rows, err := r.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	for rows.Next() {
+		var i ingredient
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Description,
+		); err != nil {
+			return nil, err
+		}
+		is = append(is, i)
+	}
+	return is, nil
+}
+
+func (r *repo) createIngredient(i ingredient) error {
+	query := `
+	INSERT INTO ingredients (name, description) 
+	VALUES (?, ?);`
+	if _, err := r.db.Exec(query, i.Name, i.Description); err != nil {
+		return err
+	}
+	return nil
+}

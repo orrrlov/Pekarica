@@ -4,13 +4,14 @@ type recipe struct {
 	id          int
 	name        string
 	amount      amount
+	note        string
 	ingredients []ingredient
 }
 
 type ingredient struct {
-	id     int
-	name   string
-	amount amount
+	ID          int
+	Name        string
+	Description string
 }
 
 type amount struct {

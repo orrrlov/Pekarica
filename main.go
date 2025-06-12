@@ -5,15 +5,12 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-
-	"github.com/gorilla/websocket"
 )
 
 var (
-	domain   = flag.String("domain", "localhost", "domain")
-	port     = flag.String("port", "8080", "port")
-	done     = make(chan os.Signal, 1)
-	upgrader = websocket.Upgrader{}
+	domain = flag.String("domain", "localhost", "domain")
+	port   = flag.String("port", "8080", "port")
+	done   = make(chan os.Signal, 1)
 )
 
 func main() {
