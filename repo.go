@@ -68,7 +68,7 @@ func (r *repo) getAllIngredients() ([]ingredient, error) {
 	query := `
 	SELECT id, name, description 
 	FROM ingredients 
-	ORDER id DESC;`
+	ORDER BY id DESC;`
 	rows, err := r.db.Query(query)
 	if err != nil {
 		return nil, err
@@ -92,6 +92,16 @@ func (r *repo) createIngredient(i ingredient) error {
 	INSERT INTO ingredients (name, description) 
 	VALUES (?, ?);`
 	if _, err := r.db.Exec(query, i.Name, i.Description); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *repo) deleteIngredient(id string) error {
+	query := `
+	DELETE FROM ingredients 
+	WHERE id = ?;`
+	if _, err := r.db.Exec(query, id); err != nil {
 		return err
 	}
 	return nil

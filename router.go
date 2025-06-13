@@ -17,6 +17,7 @@ func (s *server) newRouter() *http.ServeMux {
 
 	mux.HandleFunc("GET /ingredients", s.ingredientsHandler)
 	mux.HandleFunc("POST /ingredients", s.createIngredientHandler)
+	mux.HandleFunc("POST /ingredients/delete", s.deleteIngredientHandler)
 
 	return mux
 }
@@ -34,7 +35,11 @@ func recipesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *server) ingredientsHandler(w http.ResponseWriter, r *http.Request) {
-	data, _ := s.repo.getAllIngredients()
+	data, err := s.repo.getAllIngredients()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	parseTemplate("ingredients").Execute(w, data)
 }
 
@@ -45,9 +50,12 @@ func (s *server) createIngredientHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	name := r.FormValue("name")
+	description := r.FormValue("description")
+
 	i := ingredient{
-		Name:        r.FormValue("name"),
-		Description: r.FormValue("description"),
+		Name:        name,
+		Description: description,
 	}
 
 	if err = s.repo.createIngredient(i); err != nil {
@@ -55,5 +63,24 @@ func (s *server) createIngredientHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	http.Redirect(w, r, "/ingredients", http.StatusOK)
+	refererURL := r.Header.Get("Referer")
+	http.Redirect(w, r, refererURL, http.StatusSeeOther)
+}
+
+func (s *server) deleteIngredientHandler(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, "Error parsing form", http.StatusBadRequest)
+		return
+	}
+
+	id := r.FormValue("id")
+
+	if err = s.repo.deleteIngredient(id); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	refererURL := r.Header.Get("Referer")
+	http.Redirect(w, r, refererURL, http.StatusSeeOther)
 }

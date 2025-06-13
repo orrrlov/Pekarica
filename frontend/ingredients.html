@@ -28,8 +28,8 @@
                             <tr class="hover:bg-base-200/40 cursor-pointer *:text-nowrap">
                                 <form action="/ingredients" method="POST">
                                     <td class="font-medium">_</td>
-                                    <td class="font-medium"><input placeholder="Naziv" class="input" type="text" name="name"
-                                            aria-label="Naziv" /></td>
+                                    <td class="font-medium"><input placeholder="Naziv" class="input" type="text"
+                                            name="name" aria-label="Naziv" /></td>
                                     <td><input placeholder="Opis" class="input" type="text" name="description"
                                             aria-label="Opis" /></td>
                                     <td>
@@ -44,7 +44,7 @@
                                 </form>
                             </tr>
                             {{range .}}
-                            <tr class="hover:bg-base-200/40 cursor-pointer *:text-nowrap">
+                            <tr class="hover:bg-base-200/40 cursor-pointer *:text-nowrap" data-id="{{.ID}}">
                                 <td class="font-medium">{{.ID}}</td>
                                 <td class="font-medium">{{.Name}}</td>
                                 <td>{{.Description}}</td>
@@ -80,7 +80,8 @@
                     <form method="dialog">
                         <button class="btn btn-ghost btn-sm">Ne</button>
                     </form>
-                    <form method="dialog">
+                    <form action="/ingredients/delete" method="POST">
+                        <input type="hidden" name="id" value="">
                         <button class="btn btn-sm btn-error">
                             Obriši
                         </button>
@@ -93,4 +94,14 @@
         </dialog>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('[aria-label="Delete ingredient"]').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.closest('tr').dataset.id;
+                document.querySelector('#apps_shop_delete input[name="id"]').value = id;
+            });
+        });
+    });
+</script>
 {{ end }}
