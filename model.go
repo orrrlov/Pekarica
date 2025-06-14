@@ -1,33 +1,38 @@
 package main
 
-type recipe struct {
-	id          int
-	name        string
-	amount      amount
-	note        string
-	ingredients []ingredient
+type Recipe struct {
+	ID          int
+	Name        string
+	Description string
+	Amount
+	Ingredients []IngredientAmount
 }
 
-type ingredient struct {
+type Ingredient struct {
 	ID          int
 	Name        string
 	Description string
 }
 
-type amount struct {
-	quantity float64
-	unit     unit
+type Amount struct {
+	Quantity float64
+	Unit     Unit
 }
 
-type unit int
+type IngredientAmount struct {
+	Amount
+	Ingredient
+}
+
+type Unit int
 
 const (
-	GRAM unit = iota
+	GRAM Unit = iota
 	LITER
 	WHOLE
 )
 
-func (u unit) String() string {
+func (u Unit) String() string {
 	switch u {
 	case GRAM:
 		return "gram"
@@ -38,6 +43,6 @@ func (u unit) String() string {
 	}
 }
 
-func (u unit) ConvertToBase() {
+func (u Unit) ConvertToBase() {
 
 }

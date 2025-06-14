@@ -3,9 +3,14 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"math"
 	"os"
 
 	_ "github.com/mattn/go-sqlite3"
+)
+
+var (
+	pageSize = 20
 )
 
 type repo struct {
@@ -63,8 +68,8 @@ func (r *repo) createTables() error {
 	return nil
 }
 
-func (r *repo) getAllIngredients() ([]ingredient, error) {
-	var is []ingredient
+func (r *repo) getAllIngredients() ([]Ingredient, error) {
+	var is []Ingredient
 	query := `
 	SELECT id, name, description 
 	FROM ingredients 
@@ -73,8 +78,9 @@ func (r *repo) getAllIngredients() ([]ingredient, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 	for rows.Next() {
-		var i ingredient
+		var i Ingredient
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
@@ -87,7 +93,7 @@ func (r *repo) getAllIngredients() ([]ingredient, error) {
 	return is, nil
 }
 
-func (r *repo) createIngredient(i ingredient) error {
+func (r *repo) createIngredient(i Ingredient) error {
 	query := `
 	INSERT INTO ingredients (name, description) 
 	VALUES (?, ?);`
@@ -104,5 +110,62 @@ func (r *repo) deleteIngredient(id string) error {
 	if _, err := r.db.Exec(query, id); err != nil {
 		return err
 	}
+	return nil
+}
+
+func (r *repo) getRecipesPagination() int {
+	var totalCount int
+	err := r.db.QueryRow(`SELECT COUNT(*) FROM recipes`).Scan(&totalCount)
+	if err != nil {
+		return 0
+	}
+	return int(math.Ceil(float64(totalCount) / float64(pageSize)))
+}
+
+func (r *repo) getAllRecipes(page int) ([]Recipe, error) {
+	var rps []Recipe
+
+	offset := (page - 1) * pageSize
+
+	query := `
+	SELECT id,name,description,quantity,unit
+    FROM recipes
+    ORDER BY id DESC
+    LIMIT ? OFFSET ?`
+
+	rows, err := r.db.Query(query, pageSize, offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var rp Recipe
+
+		if err := rows.Scan(
+			&rp.ID,
+			&rp.Name,
+			&rp.Description,
+			&rp.Quantity,
+			&rp.Unit,
+		); err != nil {
+			return nil, err
+		}
+
+		rps = append(rps, rp)
+	}
+
+	return rps, nil
+}
+
+func (r *repo) createRecipe(rp Recipe) error {
+	query := `
+	INSERT INTO recipes (name, description, quantity, unit) 
+	VALUES (?, ?, ?, ?);`
+
+	if _, err := r.db.Exec(query, rp.Name, rp.Description, rp.Quantity, rp.Unit); err != nil {
+		return err
+	}
+
 	return nil
 }

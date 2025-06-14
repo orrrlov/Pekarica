@@ -1,0 +1,124 @@
+{{ define "title" }}Novi Recept{{ end }}
+
+{{ define "content" }}
+<div id="layout-content">
+    <div class="flex items-center justify-between">
+        <h3 class="text-lg font-medium">Novi Recept</h3>
+        <div class="breadcrumbs hidden p-0 text-sm sm:inline">
+            <ul>
+                <li><a href="/">Pekarica</a></li>
+                <li class="">
+                    <a href="/recipes">Recepti</a>
+                </li>
+                <li class="opacity-80">Novi Recept</li>
+            </ul>
+        </div>
+    </div>
+    <div class="mt-6">
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <div class="card bg-base-100 shadow">
+                <div class="card-body">
+                    <div class="card-title">Recept</div>
+                    <div class="fieldset mt-2 grid grid-cols-1 gap-4 lg:grid-cols-2">
+                        <div class="col-span-1 space-y-2 lg:col-span-2">
+                            <label class="fieldset-label" for="name">
+                                Naziv
+                            </label>
+                            <input class="input w-full" id="name" placeholder="Naziv" type="text" />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="fieldset-label" for="quantity">
+                                Količina
+                            </label>
+                            <input class="input w-full" id="quantity" type="number" required name="price" min="0"
+                                value="0" step=".0001">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="fieldset-label">Jedinica</label>
+                            <select class="select w-full" aria-label="Izaberi jedinicu">
+                                <option value="" disabled="" selected="">
+                                    Izaberi jedinicu
+                                </option>
+                                <option>Gram</option>
+                                <option>Litar</option>
+                                <option>Celo</option>
+                            </select>
+                        </div>
+                        <div class="col-span-1 space-y-2 lg:col-span-2">
+                            <label class="fieldset-label" for="description">
+                                Opis
+                            </label>
+                            <textarea placeholder="Opis" id="description" class="textarea w-full"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card bg-base-100 h-fit shadow">
+                <div class="card-body">
+                    <div class="card-title">Sastojci</div>
+                    <div class="fieldset mt-2 grid grid-cols-1 gap-4 lg:grid-cols-2">
+                        <div class="overflow-auto col-span-1 space-y-2 lg:col-span-2">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Sastojak</th>
+                                        <th>Količina</th>
+                                        <th>Jedinica</th>
+                                        <th>Akcija</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-base-200/40 cursor-pointer *:text-nowrap">
+                                        <form action="/ingredients" method="POST">
+                                            <td class="font-medium">
+                                                <select class="select w-full" aria-label="Izaberi jedinicu">
+                                                    <option value="" disabled="" selected="">
+                                                        Izaberi sastojak
+                                                    </option>
+                                                    <option>Brasno</option>
+                                                    <option>Voda</option>
+                                                    <option>Jaje</option>
+                                                </select>
+                                            </td>
+                                            <td class="font-medium"><input class="input w-full" id="quantity"
+                                                    type="number" required name="price" min="0" value="0" step=".0001">
+                                            </td>
+                                            <td><select class="select w-full" aria-label="Izaberi jedinicu">
+                                                    <option value="" disabled="" selected="">
+                                                        Izaberi jedinicu
+                                                    </option>
+                                                    <option>Gram</option>
+                                                    <option>Litar</option>
+                                                    <option>Celo</option>
+                                                </select></td>
+                                            <td>
+                                                <div class="inline-flex w-fit">
+                                                    <button aria-label="Edit customer link"
+                                                        class="btn btn-square btn-success btn-outline btn-sm border-transparent"
+                                                        href="./apps-ecommerce-shops-edit.html" type="submit">
+                                                        <span class="iconify lucide--check size-4"></span>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-6 flex justify-end gap-3">
+            <a class="btn btn-sm btn-ghost" href="./apps-ecommerce-shops.html">
+                <span class="iconify lucide--x size-4"></span>
+                Cancel
+            </a>
+            <a class="btn btn-sm btn-primary" href="./apps-ecommerce-shops.html">
+                <span class="iconify lucide--check size-4"></span>
+                Save
+            </a>
+        </div>
+    </div>
+</div>
+{{ end }}

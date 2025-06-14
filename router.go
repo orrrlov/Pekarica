@@ -2,6 +2,8 @@ package main
 
 import (
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 func (s *server) newRouter() *http.ServeMux {
@@ -13,7 +15,8 @@ func (s *server) newRouter() *http.ServeMux {
 	mux.HandleFunc("/", indexHandler)
 	mux.HandleFunc("GET /quit", quitHandler)
 
-	mux.HandleFunc("GET /recipes", recipesHandler)
+	mux.HandleFunc("GET /recipes", s.recipesHandler)
+	mux.HandleFunc("GET /recipes/", s.recipesHandler)
 
 	mux.HandleFunc("GET /ingredients", s.ingredientsHandler)
 	mux.HandleFunc("POST /ingredients", s.createIngredientHandler)
@@ -30,8 +33,47 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	parseTemplate("index").Execute(w, nil)
 }
 
-func recipesHandler(w http.ResponseWriter, r *http.Request) {
-	parseTemplate("recipes").Execute(w, nil)
+func (s *server) recipesHandler(w http.ResponseWriter, r *http.Request) {
+	path := strings.Trim(r.URL.Path, "/")
+	parts := strings.Split(path, "/")
+
+	if len(parts) == 1 && parts[0] == "recipes" {
+		s.allRecipesHandler(w, r)
+	} else if len(parts) == 2 && parts[0] == "recipes" {
+		s.singleRecipeHandler(w, r, parts[1])
+	} else {
+		http.NotFound(w, r)
+	}
+}
+
+func (s *server) singleRecipeHandler(w http.ResponseWriter, r *http.Request, id string) {
+	parseTemplate("create_recipe").Execute(w, nil)
+}
+
+func (s *server) allRecipesHandler(w http.ResponseWriter, r *http.Request) {
+	type data struct {
+		Recipes   []Recipe
+		NoOfPages int
+	}
+
+	pageStr := r.URL.Query().Get("page")
+	page, err := strconv.Atoi(pageStr)
+	if err != nil || page < 1 {
+		page = 1
+	}
+
+	noOfPages := s.repo.getRecipesPagination()
+
+	recipes, err := s.repo.getAllRecipes(page)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	parseTemplate("recipes").Execute(w, data{
+		Recipes:   recipes,
+		NoOfPages: noOfPages,
+	})
 }
 
 func (s *server) ingredientsHandler(w http.ResponseWriter, r *http.Request) {
@@ -53,7 +95,7 @@ func (s *server) createIngredientHandler(w http.ResponseWriter, r *http.Request)
 	name := r.FormValue("name")
 	description := r.FormValue("description")
 
-	i := ingredient{
+	i := Ingredient{
 		Name:        name,
 		Description: description,
 	}

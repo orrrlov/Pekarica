@@ -10,7 +10,7 @@ const (
 	CREATE TABLE IF NOT EXISTS recipes (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		name TEXT NOT NULL,
-		note TEXT,
+		description TEXT,
 		quantity REAL,
 		unit TEXT
 	);
@@ -26,9 +26,8 @@ const (
 	CREATE TABLE IF NOT EXISTS recipe_ingredients (
 		recipe_id INTEGER NOT NULL,
 		ingredient_id INTEGER NOT NULL,
-		quantity REAL NOT NULL,     -- Amount of ingredient needed
-		unit TEXT NOT NULL,        -- Unit enum value
-		note TEXT,
+		quantity REAL NOT NULL,
+		unit TEXT NOT NULL,
 		PRIMARY KEY (recipe_id, ingredient_id),
 		FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
 		FOREIGN KEY (ingredient_id) REFERENCES ingredients(id) ON DELETE CASCADE
